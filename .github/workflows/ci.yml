@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - master
+      - glyphs
 
 concurrency:
   group: "${{ github.workflow }}-${{ github.ref_name }}"
@@ -26,7 +27,8 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'ci:android') ||
       contains(github.event.pull_request.labels.*.name, 'ci:main') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     outputs:
       lfs_sha: ${{ steps.lfs_sha_recover.outputs.lfs_sha }}
     steps:
@@ -52,7 +54,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:main') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     outputs:
       vtk_matrix: ${{steps.vtk_matrix.outputs.extract}}
 
@@ -79,7 +82,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:main') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
       matrix:
@@ -119,7 +123,8 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'ci:fast') ||
       contains(github.event.pull_request.labels.*.name, 'ci:main') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     runs-on: ubuntu-24.04
     container: ghcr.io/f3d-app/f3d-ci
 
@@ -155,7 +160,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:main') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
       matrix:
@@ -245,7 +251,8 @@ jobs:
     needs: [cache_lfs, recover_vtk_matrix]
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
       matrix:
@@ -283,7 +290,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:main') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
       matrix:
@@ -331,7 +339,8 @@ jobs:
     needs: cache_lfs
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
       matrix:
@@ -380,7 +389,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:main') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     runs-on: ubuntu-24.04
     container: ghcr.io/f3d-app/f3d-ci
 
@@ -412,7 +422,8 @@ jobs:
     needs: cache_lfs
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
       matrix:
@@ -451,7 +462,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:main') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
 
@@ -483,7 +495,8 @@ jobs:
   external-build:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
 
@@ -515,7 +528,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:android') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     outputs:
       docker_timestamp: ${{steps.docker_timestamp.outputs.extract}}
 
@@ -542,7 +556,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:android') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
       matrix:
@@ -572,7 +587,8 @@ jobs:
     if: |
       contains(github.event.pull_request.labels.*.name, 'ci:wasm') ||
       contains(github.event.pull_request.labels.*.name, 'ci:full') ||
-      github.ref == 'refs/heads/master'
+      github.ref == 'refs/heads/master' ||
+      github.ref == 'refs/heads/glyphs'
     strategy:
       fail-fast: false
 
