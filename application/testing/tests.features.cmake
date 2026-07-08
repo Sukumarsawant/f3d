@@ -141,6 +141,7 @@ f3d_test(NAME TestVolumeColoringArray DATA waveletArrays.vti ARGS -vb --coloring
 f3d_test(NAME TestNormalGlyphsPerspectiveEnable DATA suzanne.obj ARGS --normal-glyphs)
 f3d_test(NAME TestNormalGlyphsOrthographicEnable DATA suzanne.obj ARGS --normal-glyphs --camera-orthographic)
 f3d_test(NAME TestNormalGlyphsScale DATA suzanne.obj ARGS --normal-glyphs --normal-glyphs-scale=0.1)
+f3d_test(NAME TestNormalGlyphsColor DATA suzanne.obj ARGS --normal-glyphs --normal-glyphs-color=1,0,0)
 f3d_test(NAME TestNormalGlyphsNoNormalsAvailable DATA cow.vtp ARGS --normal-glyphs NO_BASELINE REGEXP "does not contain any normals")
 
 ## Textures
@@ -482,6 +483,7 @@ f3d_test(NAME TestCommandScriptSetCameraBottom SCRIPT DATA dragon.vtu) # set_cam
 f3d_test(NAME TestCommandScriptSetCameraLeft SCRIPT DATA dragon.vtu) # set_camera left
 f3d_test(NAME TestCommandScriptCycleCameraIndex SCRIPT DATA Cameras.gltf) # cycle scene.camera.index;cycle scene.camera.index;reload_current_file_group
 f3d_test(NAME TestCommandScriptIncreaseDecreaseCameraIndex SCRIPT DATA Cameras.gltf) # increase scene.camera.index;increase scene.camera.index;increase.camera.index;decrease.camera.index;reload_current_file_group
+f3d_test(NAME TestCommandScriptOpacityMap SCRIPT DATA vase_4comp.vti ARGS -v) # set model.scivis.opacity_map 0,0.03,1,1
 
 ## Tests to increase coverage
 # Output option test

@@ -1728,6 +1728,16 @@ void vtkF3DRenderer::SetNormalGlyphScaleMultiplier(double multiplier)
 }
 
 //----------------------------------------------------------------------------
+void vtkF3DRenderer::SetNormalGlyphColor(const std::optional<std::vector<double>>& color)
+{
+  if (this->NormalGlyphColor != color)
+  {
+    this->NormalGlyphColor = color;
+    this->NormalGlyphsConfigured = false;
+  }
+}
+
+//----------------------------------------------------------------------------
 void vtkF3DRenderer::SetUseSSAOPass(bool use)
 {
   if (this->UseSSAOPass != use)
@@ -2761,7 +2771,8 @@ void vtkF3DRenderer::ConfigurePointSprites()
     return;
   }
 
-  if (!this->PointSpritesUseInstancing && !vtkShader::IsComputeShaderSupported())
+  if (this->GetBlendingMode() == vtkF3DRenderer::BlendingMode::SORT &&
+    !vtkShader::IsComputeShaderSupported())
   {
     F3DLog::Print(F3DLog::Severity::Warning,
       "Compute shaders are not supported, gaussians are not sorted, resulting in blending "
@@ -2902,6 +2913,17 @@ void vtkF3DRenderer::ConfigureNormalGlyphs()
     }
 
     this->UpdateNormalGlyphsScale();
+    if (this->NormalGlyphColor.has_value())
+    {
+      assert(this->NormalGlyphColor->size() == 3);
+      const double* normalGlyphColor = this->NormalGlyphColor->data();
+      double linearColor[3];
+      linearColor[0] = std::pow(normalGlyphColor[0], 2.2);
+      linearColor[1] = std::pow(normalGlyphColor[1], 2.2);
+      linearColor[2] = std::pow(normalGlyphColor[2], 2.2);
+      normalGlyph.GlyphMapper->ScalarVisibilityOff();
+      normalGlyph.Actor->GetProperty()->SetColor(linearColor);
+    }
     normalGlyph.Actor->SetVisibility(normalGlyphsVisible);
   }
 
@@ -3066,6 +3088,7 @@ void vtkF3DRenderer::SetOpacityMap(const std::vector<double>& opacityMap)
 
     this->OpacityTransferFunctionConfigured = false;
     this->VolumePropsAndMappersConfigured = false;
+    this->ColoringConfigured = false;
   }
 }
 
